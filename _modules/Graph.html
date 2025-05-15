@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graph &mdash; Loop Universal Compiler 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Loop Universal Compiler
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Loop Universal Compiler</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Graph</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Graph</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pyzx</span> <span class="k">as</span> <span class="nn">zx</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<div class="viewcode-block" id="to_graph_like"><a class="viewcode-back" href="../Graph.html#Graph.to_graph_like">[docs]</a><span class="k">def</span> <span class="nf">to_graph_like</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Puts a generic ZX-graph into a ZX graph-like diagram.</span>
+
+<span class="sd">    :param g: a generic ZX-graph</span>
+<span class="sd">    :type g: BaseGraph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">zx</span><span class="o">.</span><span class="n">spider_simp</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">zx</span><span class="o">.</span><span class="n">to_gh</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">zx</span><span class="o">.</span><span class="n">id_simp</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">zx</span><span class="o">.</span><span class="n">spider_simp</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="optimize_graph"><a class="viewcode-back" href="../Graph.html#Graph.optimize_graph">[docs]</a><span class="k">def</span> <span class="nf">optimize_graph</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simplify clifford spiders</span>
+
+<span class="sd">    :param g: a generic ZX-graph</span>
+<span class="sd">    :type g: BaseGraph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">zx</span><span class="o">.</span><span class="n">simplify</span><span class="o">.</span><span class="n">clifford_simp</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">zx</span><span class="o">.</span><span class="n">full_reduce</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">zx</span><span class="o">.</span><span class="n">simplify</span><span class="o">.</span><span class="n">interior_clifford_simp</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="create_tree_dfs"><a class="viewcode-back" href="../Graph.html#Graph.create_tree_dfs">[docs]</a><span class="k">def</span> <span class="nf">create_tree_dfs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">head_value</span><span class="p">):</span>
+    <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="n">tree_head</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">head_value</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">tree_head</span><span class="p">)</span>
+
+    <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_head</span><span class="p">)</span>
+    <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tree_head</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="n">tree_n</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">tree_n</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_n</span><span class="p">)</span>
+
+                <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t</span></div>
+
+<div class="viewcode-block" id="traverse_dfs"><a class="viewcode-back" href="../Graph.html#Graph.traverse_dfs">[docs]</a><span class="k">def</span> <span class="nf">traverse_dfs</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">head_node</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given a tree and a starting node, returns the new tree given by a DFS starting from head_node.</span>
+
+<span class="sd">    :param tree: the tree to traverse</span>
+<span class="sd">    :type tree: Tree</span>
+<span class="sd">    :param head_node: the starting node</span>
+<span class="sd">    :type head_node: TreeNode</span>
+<span class="sd">    :return: the tree</span>
+<span class="sd">    :rtype: the traversed tree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="n">tree_head</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">head_node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">tree_head</span><span class="p">)</span>
+
+    <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stack_new</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">head_node</span><span class="p">)</span>
+    <span class="n">stack_new</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_head</span><span class="p">)</span>
+    <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">head_node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">stack_new</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">neighbors</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="n">tree_n</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">tree_n</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_n</span><span class="p">)</span>
+
+                <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+                <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">stack_new</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_n</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">t</span></div>
+
+
+<div class="viewcode-block" id="py_tree"><a class="viewcode-back" href="../Graph.html#Graph.py_tree">[docs]</a><span class="k">def</span> <span class="nf">py_tree</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given a ZX-graph and a tree, it visualize the tree on the graph changing the color of the edges corresponding to the tree.</span>
+
+<span class="sd">    :param graph: the ZX-graph on which we want to visualize the tree</span>
+<span class="sd">    :type graph: BaseGraph</span>
+<span class="sd">    :param tree: the tree</span>
+<span class="sd">    :type tree: Tree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">queue</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">head</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">graph</span><span class="o">.</span><span class="n">set_edge_type</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="Tree"><a class="viewcode-back" href="../Graph.html#Graph.Tree">[docs]</a><span class="k">class</span> <span class="nc">Tree</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class to manage trees</span>
+<span class="sd">    :param head: the head of the tree</span>
+<span class="sd">    :type head: TreeNode</span>
+<span class="sd">    :param vertices: the list of vertices belonging to the tree</span>
+<span class="sd">    :type vertices: list of TreeNode objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">head</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Tree.add_edge"><a class="viewcode-back" href="../Graph.html#Graph.Tree.add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">children</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an edge to the tree. The parent vertex must be already present in the tree. The children vertex is a newly created TreeNode.</span>
+
+<span class="sd">        :param parent: the parent node id</span>
+<span class="sd">        :type parent: int</span>
+<span class="sd">        :param children: the children node id</span>
+<span class="sd">        :type children: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parent_node</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">parent</span><span class="p">:</span>
+                <span class="n">parent_node</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">assert</span> <span class="n">parent_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The parent is not present in the tree&quot;</span><span class="p">)</span>
+        <span class="n">child_node</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">children</span><span class="p">)</span>
+        <span class="n">child_node</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_node</span>
+        <span class="n">parent_node</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="TreeNode"><a class="viewcode-back" href="../Graph.html#Graph.TreeNode">[docs]</a><span class="k">class</span> <span class="nc">TreeNode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A tree node.</span>
+
+<span class="sd">    :param value: id of the node</span>
+<span class="sd">    :type value: int</span>
+<span class="sd">    :param parent: parent node</span>
+<span class="sd">    :type parent: TreeNode</span>
+<span class="sd">    :param children: list of children of the node</span>
+<span class="sd">    :type children: list of TreeNode objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="TreeNode.neighbors"><a class="viewcode-back" href="../Graph.html#Graph.TreeNode.neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns all the neighbors of a tree node: parent and children.</span>
+
+<span class="sd">        :return: neighbors of a tree node</span>
+<span class="sd">        :rtype: list of TreeNode objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span></div></div>
+
+<div class="viewcode-block" id="random_tree"><a class="viewcode-back" href="../Graph.html#Graph.random_tree">[docs]</a><span class="k">def</span> <span class="nf">random_tree</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a random tree.</span>
+
+<span class="sd">    :param size: number of vertices of the random tree.</span>
+<span class="sd">    :type size: int</span>
+<span class="sd">    :return: random tree</span>
+<span class="sd">    :rtype: Tree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">head_node</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">head_node</span><span class="p">)</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">head_node</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="n">parent_node</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">parent_node</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">child_node</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">parent_node</span><span class="o">.</span><span class="n">children</span> <span class="o">+=</span> <span class="p">[</span><span class="n">child_node</span><span class="p">]</span>
+        <span class="n">child_node</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_node</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree</span></div>
+
+
+<div class="viewcode-block" id="bound_tree"><a class="viewcode-back" href="../Graph.html#Graph.bound_tree">[docs]</a><span class="k">def</span> <span class="nf">bound_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">bound_list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursively computes an upper bound for the number of outer loops needed to implement the subtree with head node start</span>
+
+<span class="sd">    :param tree: the starting tree to bound</span>
+<span class="sd">    :type tree: Tree</span>
+<span class="sd">    :param start: the head node of the subtree to bound</span>
+<span class="sd">    :type start: TreeNode</span>
+<span class="sd">    :param bound_list: the list to fill with the bounds</span>
+<span class="sd">    :type bound_list: list</span>
+<span class="sd">    :return: bound for the start node</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">start</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="n">bound_list</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="k">return</span> <span class="mi">3</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">start</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">bound_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">bound_list</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+    
+    <span class="n">bound_list</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="k">return</span> <span class="n">m</span></div>
+
+<div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../Graph.html#Graph.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A general ZX-graph.</span>
+
+<span class="sd">    :param original_graph: the original ZX-graph</span>
+<span class="sd">    :type original_graph: BaseGraph</span>
+<span class="sd">    :param graph: the ZX-graph without inputs and outputs vertices.</span>
+<span class="sd">    :type graph: BaseGraph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_graph</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Graph.construct_from_json"><a class="viewcode-back" href="../Graph.html#Graph.Graph.construct_from_json">[docs]</a>    <span class="k">def</span> <span class="nf">construct_from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_json</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ZX graph-like diagram from a json. It also optimize it.</span>
+
+<span class="sd">        :param graph_json: the json describing the ZX-graph</span>
+<span class="sd">        :type graph_json: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">zx</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">graph_json</span><span class="p">)</span>
+        <span class="n">to_graph_like</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="n">optimize_graph</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_graph</span><span class="o">=</span><span class="n">g</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">remove_vertices</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">inputs</span><span class="p">()</span><span class="o">+</span><span class="n">g</span><span class="o">.</span><span class="n">outputs</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, VDSP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

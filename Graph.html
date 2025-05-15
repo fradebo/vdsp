@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graph module &mdash; Loop Universal Compiler 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Loop Universal Compiler
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Graph module</a><ul>
+<li><a class="reference internal" href="#Graph.Graph"><code class="docutils literal notranslate"><span class="pre">Graph</span></code></a><ul>
+<li><a class="reference internal" href="#Graph.Graph.complement"><code class="docutils literal notranslate"><span class="pre">Graph.complement()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.Graph.construct_from_json"><code class="docutils literal notranslate"><span class="pre">Graph.construct_from_json()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.Graph.init_measurements"><code class="docutils literal notranslate"><span class="pre">Graph.init_measurements()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.Graph.mneighbors"><code class="docutils literal notranslate"><span class="pre">Graph.mneighbors()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Graph.MeasurementType"><code class="docutils literal notranslate"><span class="pre">MeasurementType</span></code></a><ul>
+<li><a class="reference internal" href="#Graph.MeasurementType.EFFECT"><code class="docutils literal notranslate"><span class="pre">MeasurementType.EFFECT</span></code></a></li>
+<li><a class="reference internal" href="#Graph.MeasurementType.Type"><code class="docutils literal notranslate"><span class="pre">MeasurementType.Type</span></code></a></li>
+<li><a class="reference internal" href="#Graph.MeasurementType.X"><code class="docutils literal notranslate"><span class="pre">MeasurementType.X</span></code></a></li>
+<li><a class="reference internal" href="#Graph.MeasurementType.XY"><code class="docutils literal notranslate"><span class="pre">MeasurementType.XY</span></code></a></li>
+<li><a class="reference internal" href="#Graph.MeasurementType.XZ"><code class="docutils literal notranslate"><span class="pre">MeasurementType.XZ</span></code></a></li>
+<li><a class="reference internal" href="#Graph.MeasurementType.Y"><code class="docutils literal notranslate"><span class="pre">MeasurementType.Y</span></code></a></li>
+<li><a class="reference internal" href="#Graph.MeasurementType.YZ"><code class="docutils literal notranslate"><span class="pre">MeasurementType.YZ</span></code></a></li>
+<li><a class="reference internal" href="#Graph.MeasurementType.Z"><code class="docutils literal notranslate"><span class="pre">MeasurementType.Z</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Graph.Tree"><code class="docutils literal notranslate"><span class="pre">Tree</span></code></a><ul>
+<li><a class="reference internal" href="#Graph.Tree.add_edge"><code class="docutils literal notranslate"><span class="pre">Tree.add_edge()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.Tree.depth"><code class="docutils literal notranslate"><span class="pre">Tree.depth()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.Tree.get_edge_list"><code class="docutils literal notranslate"><span class="pre">Tree.get_edge_list()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Graph.TreeNode"><code class="docutils literal notranslate"><span class="pre">TreeNode</span></code></a><ul>
+<li><a class="reference internal" href="#Graph.TreeNode.neighbors"><code class="docutils literal notranslate"><span class="pre">TreeNode.neighbors()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Graph.bound_tree"><code class="docutils literal notranslate"><span class="pre">bound_tree()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.create_tree_dfs"><code class="docutils literal notranslate"><span class="pre">create_tree_dfs()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.optimize_graph"><code class="docutils literal notranslate"><span class="pre">optimize_graph()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.py_tree"><code class="docutils literal notranslate"><span class="pre">py_tree()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.random_tree"><code class="docutils literal notranslate"><span class="pre">random_tree()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.to_graph_like"><code class="docutils literal notranslate"><span class="pre">to_graph_like()</span></code></a></li>
+<li><a class="reference internal" href="#Graph.traverse_dfs"><code class="docutils literal notranslate"><span class="pre">traverse_dfs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Loop Universal Compiler</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Graph module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Graph.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Graph">
+<span id="graph-module"></span><h1>Graph module<a class="headerlink" href="#module-Graph" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Graph.Graph">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">Graph</span></span><a class="reference internal" href="_modules/Graph.html#Graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Graph" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A general ZX-graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_graph</strong> (<em>BaseGraph</em>) – the original ZX-graph</p></li>
+<li><p><strong>graph</strong> (<em>BaseGraph</em>) – the ZX-graph without inputs and outputs vertices.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.Graph.complement">
+<span class="sig-name descname"><span class="pre">complement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Graph.complement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Graph.complement" title="Link to this definition"></a></dt>
+<dd><p>applies local complementation on the pyzx graph; updates phases and measurement types
+g: A Graph instance (with initizialized measurements)
+v: The vertex to complement</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.Graph.construct_from_json">
+<span class="sig-name descname"><span class="pre">construct_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Graph.construct_from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Graph.construct_from_json" title="Link to this definition"></a></dt>
+<dd><p>Generate the ZX graph-like diagram from a json. It also optimize it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>graph_json</strong> (<em>str</em>) – the json describing the ZX-graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.Graph.init_measurements">
+<span class="sig-name descname"><span class="pre">init_measurements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Graph.init_measurements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Graph.init_measurements" title="Link to this definition"></a></dt>
+<dd><p>Initializes gflow measurement planes (XY,XZ,YZ) from the pyzx graph</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.Graph.mneighbors">
+<span class="sig-name descname"><span class="pre">mneighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertex</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Graph.mneighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Graph.mneighbors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Graph.MeasurementType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">MeasurementType</span></span><a class="reference internal" href="_modules/Graph.html#MeasurementType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.MeasurementType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Measurement Type of a Z spider in a graph-like diagram</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.EFFECT">
+<span class="sig-name descname"><span class="pre">EFFECT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#Graph.MeasurementType.EFFECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.Type">
+<span class="sig-name descname"><span class="pre">Type</span></span><a class="headerlink" href="#Graph.MeasurementType.Type" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[0, 1, 2, 3, 4, 5]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.X">
+<span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#Graph.MeasurementType.X" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.XY">
+<span class="sig-name descname"><span class="pre">XY</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#Graph.MeasurementType.XY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.XZ">
+<span class="sig-name descname"><span class="pre">XZ</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#Graph.MeasurementType.XZ" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.Y">
+<span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#Graph.MeasurementType.Y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.YZ">
+<span class="sig-name descname"><span class="pre">YZ</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#Graph.MeasurementType.YZ" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Graph.MeasurementType.Z">
+<span class="sig-name descname"><span class="pre">Z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#Graph.MeasurementType.Z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Graph.Tree">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">Tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">head</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Tree" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to manage trees
+:param head: the head of the tree
+:type head: TreeNode
+:param vertices: the list of vertices belonging to the tree
+:type vertices: list of TreeNode objects</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.Tree.add_edge">
+<span class="sig-name descname"><span class="pre">add_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Tree.add_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Tree.add_edge" title="Link to this definition"></a></dt>
+<dd><p>Add an edge to the tree. The parent vertex must be already present in the tree. The children vertex is a newly created TreeNode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent</strong> (<em>int</em>) – the parent node id</p></li>
+<li><p><strong>children</strong> (<em>int</em>) – the children node id</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.Tree.depth">
+<span class="sig-name descname"><span class="pre">depth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Tree.depth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Tree.depth" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.Tree.get_edge_list">
+<span class="sig-name descname"><span class="pre">get_edge_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#Tree.get_edge_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.Tree.get_edge_list" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Graph.TreeNode">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">TreeNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#TreeNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.TreeNode" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A tree node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>int</em>) – id of the node</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#Graph.TreeNode" title="Graph.TreeNode"><em>TreeNode</em></a>) – parent node</p></li>
+<li><p><strong>children</strong> (<em>list</em><em> of </em><em>TreeNode objects</em>) – list of children of the node</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Graph.TreeNode.neighbors">
+<span class="sig-name descname"><span class="pre">neighbors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#TreeNode.neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.TreeNode.neighbors" title="Link to this definition"></a></dt>
+<dd><p>Returns all the neighbors of a tree node: parent and children.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>neighbors of a tree node</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of TreeNode objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Graph.bound_tree">
+<span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">bound_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#bound_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.bound_tree" title="Link to this definition"></a></dt>
+<dd><p>Recursively computes an upper bound for the number of outer loops needed to implement the subtree with head node start</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="#Graph.Tree" title="Graph.Tree"><em>Tree</em></a>) – the starting tree to bound</p></li>
+<li><p><strong>start</strong> (<a class="reference internal" href="#Graph.TreeNode" title="Graph.TreeNode"><em>TreeNode</em></a>) – the head node of the subtree to bound</p></li>
+<li><p><strong>bound_list</strong> (<em>list</em>) – the list to fill with the bounds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>bound for the start node</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Graph.create_tree_dfs">
+<span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">create_tree_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#create_tree_dfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.create_tree_dfs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Graph.optimize_graph">
+<span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">optimize_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#optimize_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.optimize_graph" title="Link to this definition"></a></dt>
+<dd><p>Simplify clifford spiders</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>g</strong> (<em>BaseGraph</em>) – a generic ZX-graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Graph.py_tree">
+<span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">py_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#py_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.py_tree" title="Link to this definition"></a></dt>
+<dd><p>Given a ZX-graph and a tree, it visualize the tree on the graph changing the color of the edges corresponding to the tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>BaseGraph</em>) – the ZX-graph on which we want to visualize the tree</p></li>
+<li><p><strong>tree</strong> (<a class="reference internal" href="#Graph.Tree" title="Graph.Tree"><em>Tree</em></a>) – the tree</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Graph.random_tree">
+<span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">random_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#random_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.random_tree" title="Link to this definition"></a></dt>
+<dd><p>Generate a random tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) – number of vertices of the random tree.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>random tree</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Graph.Tree" title="Graph.Tree">Tree</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Graph.to_graph_like">
+<span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">to_graph_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#to_graph_like"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.to_graph_like" title="Link to this definition"></a></dt>
+<dd><p>Puts a generic ZX-graph into a ZX graph-like diagram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>g</strong> (<em>BaseGraph</em>) – a generic ZX-graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Graph.traverse_dfs">
+<span class="sig-prename descclassname"><span class="pre">Graph.</span></span><span class="sig-name descname"><span class="pre">traverse_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Graph.html#traverse_dfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Graph.traverse_dfs" title="Link to this definition"></a></dt>
+<dd><p>Given a tree and a starting node, returns the new tree given by a DFS starting from head_node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="#Graph.Tree" title="Graph.Tree"><em>Tree</em></a>) – the tree to traverse</p></li>
+<li><p><strong>head_node</strong> (<a class="reference internal" href="#Graph.TreeNode" title="Graph.TreeNode"><em>TreeNode</em></a>) – the starting node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the tree</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the traversed tree</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, VDSP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
