@@ -1,4 +1,4 @@
-from graphtheory.edge_optimize import find_maximal_independent_set, lcomp_edge_optimize_greedy
+from graphtheory.edge_optimize_zx import find_maximal_independent_set, lcomp_edge_optimize_greedy
 from compiler.QTree import create_tree_dfs, build_optimal, QTree
 from pyzx.graph.base import BaseGraph, VT, ET
 from pyzx import Graph

@@ -19,37 +19,37 @@ class QTree:
     :param last: the id of the last vertex in the photonic circuit
     :type last: int
     """ 
-    # def __init__(self, head_id):
-    #     """Constructor method. When initializing a Quantum Tree we start with a qubit initialized in the state + (hence the Hadamard gate) and we label with this qubit with the integer index head_id"""
-    #     self.loop = None
-    #     self.qvertices = {}
+    def __init__(self, head_id):
+        """Constructor method. When initializing a Quantum Tree we start with a qubit initialized in the state + (hence the Hadamard gate) and we label with this qubit with the integer index head_id"""
+        self.loop = None
+        self.qvertices = {}
         
-    #     circuit = pcvl.Circuit(2)
-    #     circuit.add((0, 1), symb.BS.H())
+        circuit = pcvl.Circuit(2)
+        circuit.add((0, 1), symb.BS.H())
 
-    #     head_qubit = Qbit(pos=0, logical=False)
+        head_qubit = Qbit(pos=0, logical=False)
 
-    #     self.qvertices[head_id] = head_qubit
-    #     head_qubit.id = head_id
+        self.qvertices[head_id] = head_qubit
+        head_qubit.id = head_id
     
-    #     self.loop = Loop(photons=photons_from_qubit([head_qubit]), qbits=[head_qubit], circuit=circuit)
+        self.loop = Loop(photons=photons_from_qubit([head_qubit]), qbits=[head_qubit], circuit=circuit)
 
-    #     #keep in mind the last vertex that was added to the tree. We will need this to sink qubits at the end of the circuit.
-    #     self.last = head_id
+        #keep in mind the last vertex that was added to the tree. We will need this to sink qubits at the end of the circuit.
+        self.last = head_id
     
 
-    def __init__(self, num_qubits):
-        circuit_length = 2+(num_qubits-1)*6
-        circuit = pcvl.Circuit(circuit_length)
-        num_physical_qubits = int(circuit_length/2)
+    # def __init__(self, num_qubits):
+    #     circuit_length = 2+(num_qubits-1)*6
+    #     circuit = pcvl.Circuit(circuit_length)
+    #     num_physical_qubits = int(circuit_length/2)
 
-        qubits = [Qbit(pos=2*i+1, logical=False) for i in range(num_physical_qubits)]
-        self.qvertices = {i: qubits[i] for i in range(num_physical_qubits)}
-        for i, qubit in enumerate(qubits):
-            qubit.id = i
+    #     qubits = [Qbit(pos=2*i+1, logical=False) for i in range(num_physical_qubits)]
+    #     self.qvertices = {i: qubits[i] for i in range(num_physical_qubits)}
+    #     for i, qubit in enumerate(qubits):
+    #         qubit.id = i
         
-        self.loop = Loop(photons=photons_from_qubit(qubits) ,qbits=qubits, circuit=circuit)
-        self.last = num_physical_qubits - 1
+    #     self.loop = Loop(photons=photons_from_qubit(qubits) ,qbits=qubits, circuit=circuit)
+    #     self.last = num_physical_qubits - 1
 
 
     def sink(self, up, down):

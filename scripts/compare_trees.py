@@ -107,15 +107,17 @@ def dump_tree_and_proc_order(tree: LOTree, tree_filename, proc_order_filename):
     with open(proc_order_filename, 'w') as f:
         json.dump(proc_order, f)
 
-def get_edge_order_minimal_depth_dfs(tree: LOTree):
+def get_edge_order_minimal_depth_dfs(tree: LOTree, reversed=False):
     order = []
     conv_map = get_edge_order_dict(tree)
     visited = [tree.tree.head.value]
     stack = [tree.tree.head]
     while stack:
         node = stack.pop()
-        node.children.sort(key= lambda node: node.value)
-        for child in reversed(node.children):
+        if not reversed:
+            # specific to dfs search we need to inverse the reversing process...
+            node.children.reverse()
+        for child in node.children:
             if not child.value in visited:
                 visited.append(child.value)
                 stack.append(child)
@@ -124,14 +126,15 @@ def get_edge_order_minimal_depth_dfs(tree: LOTree):
             order.append(conv_map[frozenset([node.parent.value,node.value])])
     return order
 
-def get_edge_order_bfs(tree: LOTree):
+def get_edge_order_bfs(tree: LOTree, reversed=False):
     conv_map = get_edge_order_dict(tree)
     order = []
     visited = [tree.tree.head.value]
     stack = [tree.tree.head]
     while stack:
         node = stack.pop(0)
-        node.children.sort(key= lambda node: node.value)
+        if reversed:
+            node.children.reverse()
         for child in node.children:
             if not child.value in visited:
                 visited.append(child.value)
@@ -166,8 +169,7 @@ def get_edge_order_random(tree: LOTree):
     stack = [tree.tree.head]
     while stack:
         node = stack.pop()
-        node.children.sort(key= lambda node: node.value)
-        for child in reversed(node.children):
+        for child in node.children:
             if not child.value in visited:
                 visited.append(child.value)
                 stack.append(child)
@@ -193,7 +195,6 @@ def get_edge_order_random_dfs(tree: LOTree):
 
         if node.parent:
             order.append(conv_map[frozenset([node.parent.value,node.value])])
-        # random.shuffle(stack)
     return order
 
 

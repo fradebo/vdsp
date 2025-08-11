@@ -13,6 +13,6 @@ for file in ../trees/bfs-vs-dfs-trees/*; do
         cp "../proc_order/$(basename ${file})" proc_order.json
         ./tree 
         wait
-        python3 get_F.py "$file" "../evaluation/bfs-vs-dfs.csv"
+        python3 get_F.py "$file" "../evaluation/bfs-vs-dfs-bfs-11.csv"
     fi 
 done

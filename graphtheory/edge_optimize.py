@@ -1,103 +1,36 @@
-from pyzx.graph.base import BaseGraph, VT, ET
-from pyzx import Graph
-from pyzx.utils import EdgeType, VertexType
-from fractions import Fraction
+from graphtheory.tree_decompose_bouchet import tree_decompose, complement_neighbors
+import networkx as nx
 from itertools import combinations
 
-import networkx as nx
+"""Interestingly one can also see that local complementation is in general non-commutative due to the Cliffords applied on the single qubits.
+R_x(pi/2) vs. R_z(pi/2). If we have non commuting local complementations, then there are also X and Zs on a qubit, 
+if they commute then only Zs or only Xs so also the local operations commute (trivial maybe, 
+but we could determine whether local complementations commute or not by just pushing Pauli strings with the phi function?)"""
 
-def lcomp(g: BaseGraph[VT,ET], v: VT):
-    """assumes we only apply lcomp on X vertices (i.e. Pauli X stabilizer on v has no effect) so only non-adjacent lcomp vertices in minimzation process"""
-    vn = list(g.neighbors(v))
-    vn.sort()
-    for n in vn:
-        g.add_to_phase(n,Fraction(1,2))
-        # flip edges
-        for n2 in vn[vn.index(n)+1:]:
-            if g.connected(n,n2):
-                g.remove_edge(g.edge(n,n2))
-            else:
-                g.add_edge(g.edge(n,n2), EdgeType.HADAMARD)
+def edge_optimize(G: nx.Graph):
+    G, comp = tree_decompose(G)
+    if not comp:
+        G, comp = lcomp_edge_optimize_greedy(G, G.nodes)
+    return G, comp
 
-def lcomp_edge_optimize_greedy(g: BaseGraph[VT,ET], vertex_set):
+
+def lcomp_edge_optimize_greedy(G: nx.Graph, vertex_set):
     """greedy approach for minimizing the number of edges in a graph using local complementation"""
+    lcomps = []
     while True:
-        vertex_cost_function = [(v,lcomp_cost(g,v)) for v in vertex_set]
+        vertex_cost_function = [(v,lcomp_cost(G,v)) for v in vertex_set]
+        print(vertex_cost_function)
         best_vertex, cost = min(vertex_cost_function, key = lambda x: x[1])
         if cost < 0:
-            print("apply lcomp",best_vertex,cost)
-            lcomp(g, best_vertex)
+            # print("apply lcomp",best_vertex,cost)
+            complement_neighbors(G, list(G.neighbors(best_vertex)))
+            lcomps.append(best_vertex)
         else:
             break
+    return G, lcomps
 
-def lcomp_cost(g: BaseGraph[VT,ET], v: VT):
-    all_edges = set(combinations(g.neighbors(v),2))
-    existing_edges = all_edges.intersection(g.edge_set())
+def lcomp_cost(G: nx.Graph, v: int):
+    all_edges = set([(c1,c2) if c1 < c2 else (c2,c1) for (c1,c2) in combinations(G.neighbors(v),2)])
+    graph_edges = set([(c1,c2) if c1 < c2 else (c2,c1) for (c1,c2) in G.edges])
+    existing_edges = all_edges.intersection(graph_edges)
     return len(all_edges)-2*len(existing_edges)
-
-def find_maximal_independent_set(g: BaseGraph[VT, ET]):
-    """easiest method for finding a maximal independent set; 
-    note: this is not an algorithm for finding the maximum(!) independent set which is NP-hard"""
-    result = []
-    vertex_set = g.vertex_set()
-    while vertex_set:
-        v = vertex_set.pop()
-        result.append(v)
-        vertex_set.difference_update(set(g.neighbors(v)))
-    return result
-
-def extract_spanning_tree_bfs(g: BaseGraph, start_vertex: VT):
-    """maybe better use build_optimal from QTree"""
-    tree = g.clone()
-    queue = [start_vertex]
-    edges = []
-    visited = [start_vertex]
-    while queue:
-        v = queue.pop(0)
-        for n in g.neighbors(v):
-            if not n in visited:
-                visited.append(n)
-                queue.insert(0,n)
-                edges.append(g.edge(v,n))
-    
-    all_edges = list(tree.edges())
-    for edge in all_edges:
-        if not edge in edges:
-            tree.remove_edge(edge)
-    return tree
-
-def extract_spanning_tree_dfs(g: BaseGraph, start_vertex: VT):
-    """maybe better use build_optimal from QTree"""
-    tree = g.clone()
-    queue = [start_vertex]
-    edges = []
-    visited = [start_vertex]
-    while queue:
-        v = queue.pop(0)
-        for n in g.neighbors(v):
-            if not n in visited:
-                visited.append(n)
-                queue.append(n)
-                edges.append(g.edge(v,n))
-    
-    all_edges = list(tree.edges())
-    for edge in all_edges:
-        if not edge in edges:
-            tree.remove_edge(edge)
-    return tree
-
-if __name__ == "__main__":
-    random_graph = nx.erdos_renyi_graph(20,0.3)
-    g = Graph()
-    vertex_dict = {v: g.add_vertex(VertexType.Z) for v in list(random_graph.nodes) if random_graph.degree(v) > 0}
-    for u,v, _ in random_graph.edges.data():
-        g.add_edge(g.edge(vertex_dict[u],vertex_dict[v]), EdgeType.HADAMARD)
-    
-    independent_set = find_maximal_independent_set(g)
-    lcomp_edge_optimize_greedy(g, independent_set)
-    vertex_degree_function = [(v,len(g.neighbors(v))) for v in g.vertex_set()]
-    start_vertex, degree = min(vertex_degree_function, key = lambda x: x[1])
-    # start_vertex = list(g.vertices())[0]
-    print("choose start vertex",start_vertex, degree)
-    tree = extract_spanning_tree_bfs(g, start_vertex)
-    print(tree)
